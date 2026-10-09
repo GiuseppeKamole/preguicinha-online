@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "node --test",
+    "check": "node --check server.js && node --check adapters/ssw.js && node --check adapters/aguia.js && node --check adapters/official.js"
   },
   "engines": {
     "node": ">=20"
