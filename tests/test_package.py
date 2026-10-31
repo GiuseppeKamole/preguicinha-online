@@ -14,6 +14,14 @@ class Tests(unittest.TestCase):
         self.assertIn("OnClientEvent:Connect",c)
         self.assertIn("SeaForgeAction",s+c)
         self.assertNotIn("loadstring(",s+c)
+    def test_client_panel(self):
+        p=(ROOT/"client/SeaForgeHub.client.lua").read_text(encoding="utf-8")
+        self.assertIn("cliente local 0.5.0", p)
+        self.assertIn('new("ScreenGui",', p)
+        self.assertIn("UserInputService.InputChanged:Connect", p)
+        self.assertIn("gui.Destroying:Connect", p)
+        self.assertIn("restoreVisuals()", p)
+        self.assertNotIn("loadstring(", p)
     def test_docs(self):
         for path in ["README.md","docs/INSTALACAO.md","docs/TESTES.md","docs/COMPATIBILIDADE.md","docs/API.md","docs/SEGURANCA.md"]:
             self.assertTrue((ROOT/path).is_file(),path)
