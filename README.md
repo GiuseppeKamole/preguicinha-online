@@ -56,3 +56,11 @@ O instalador substitui `SeaForgeServer` e `SeaForgeClient` de versões anteriore
 ## Comercialização
 
 Você pode construir recursos originais e testar modelos de distribuição em projetos sob seu controle. Antes de vender, conclua testes em vários dispositivos, revise segurança, direitos autorais, documentação e licenciamento. Consulte [`LICENCA.md`](LICENCA.md) antes de publicar.
+
+
+## Cliente local v0.4
+
+- [Código único do painel cliente](client/SeaForgeHub.client.lua)
+- [Guia de compatibilidade e carregamento remoto](docs/CLIENTE_LOCAL.md)
+
+Este painel cliente exibe dados disponíveis do jogador e oferece controles de visualização local. **Não implementa as automações do HoHo Hub nem atua no servidor do Blox Fruits.** O repositório permanece privado; a URL Raw não é publicamente acessível.
