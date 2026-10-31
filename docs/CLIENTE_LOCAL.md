@@ -1,4 +1,4 @@
-# SeaForge Hub — cliente local v0.4
+# SeaForge Hub — cliente local v0.5
 
 ## Objetivo
 
@@ -31,5 +31,7 @@ Executores de terceiros diferem nas APIs, versão Lua/Luau, HTTP e permissões. 
 - Execute apenas uma instância por cliente: o script fecha a interface anterior com o mesmo nome.
 - A opção de campo de visão e o redutor de efeitos mudam somente o visual local.
 - O botão "_" minimiza e exibe o botão "SEAFORGE" para reabrir.
-- O botão "X" destrói a interface e desconecta a atualização de estatísticas.
+- Arraste o cabeçalho com o mouse ou toque para mover a interface.
+- O painel adapta sua largura e altura à tela.
+- O botão "X" destrói a interface, desconecta atualizações e restaura ajustes locais conhecidos (FOV e efeitos) quando aplicáveis.
 - O Roblox e o próprio jogo podem sobrescrever as opções visuais a qualquer momento.
