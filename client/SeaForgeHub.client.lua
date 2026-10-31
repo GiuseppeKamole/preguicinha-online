@@ -1,8 +1,9 @@
--- SeaForge Hub | cliente local 0.4.0
+-- SeaForge Hub | cliente local 0.5.0
 -- Interface informativa para Roblox; nenhuma automacao de jogos de terceiros.
 -- Uso por sua conta e risco em clientes de terceiros. Nao requer key.
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
 local Lighting = game:GetService("Lighting")
 local Workspace = game:GetService("Workspace")
 
@@ -65,6 +66,33 @@ local header = new("Frame", {
     BackgroundTransparency = 1
 }, panel)
 
+-- Permite arrastar o painel por mouse ou toque, sem acessos de executor.
+local dragging, trackedInput, dragStart, startPosition = false, nil, nil, nil
+local dragInputEnded = nil
+header.InputBegan:Connect(function(input)
+    if input.UserInputType ~= Enum.UserInputType.MouseButton1
+        and input.UserInputType ~= Enum.UserInputType.Touch then return end
+    dragging, dragStart, startPosition = true, input.Position, panel.Position
+    if dragInputEnded then dragInputEnded:Disconnect() end
+    dragInputEnded = input.Changed:Connect(function()
+        if input.UserInputState == Enum.UserInputState.End then dragging = false end
+    end)
+end)
+header.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement
+        or input.UserInputType == Enum.UserInputType.Touch then
+        trackedInput = input
+    end
+end)
+local inputConnection = UserInputService.InputChanged:Connect(function(input)
+    if not dragging or not trackedInput or input ~= trackedInput then return end
+    local delta = input.Position - dragStart
+    panel.Position = UDim2.new(
+        startPosition.X.Scale, startPosition.X.Offset + delta.X,
+        startPosition.Y.Scale, startPosition.Y.Offset + delta.Y
+    )
+end)
+
 new("TextLabel", {
     Text = "SEAFORGE HUB",
     Size = UDim2.new(1, -100, 0, 30),
@@ -77,7 +105,7 @@ new("TextLabel", {
 }, header)
 
 new("TextLabel", {
-    Text = "CLIENTE v0.4  |  SEM KEY",
+    Text = "CLIENTE v0.5  |  SEM KEY",
     Size = UDim2.new(1, -100, 0, 17),
     Position = UDim2.fromOffset(17, 32),
     TextColor3 = theme.muted,
@@ -87,7 +115,6 @@ new("TextLabel", {
     BackgroundTransparency = 1
 }, header)
 
-local minimized = false
 local bubble = new("TextButton", {
     Name = "Reabrir",
     Visible = false,
@@ -122,7 +149,6 @@ end
 local alive = true
 local updates
 headerButton("_", -82, function()
-    minimized = true
     panel.Visible = false
     bubble.Visible = true
 end)
@@ -133,7 +159,6 @@ headerButton("X", -43, function()
 end)
 
 bubble.MouseButton1Click:Connect(function()
-    minimized = false
     panel.Visible = true
     bubble.Visible = false
 end)
@@ -227,14 +252,35 @@ end
 
 heading("CONFIGURACOES LOCAIS")
 local oldFov = Workspace.CurrentCamera and Workspace.CurrentCamera.FieldOfView or 70
+local fovModified = false
 local originalShadows = Lighting.GlobalShadows
 local postEffects = {}
 local lowGraphics = false
+
+local function restoreVisuals()
+    if lowGraphics then
+        Lighting.GlobalShadows = originalShadows
+        for effect, wasEnabled in pairs(postEffects) do
+            if effect and effect.Parent then
+                effect.Enabled = wasEnabled
+            end
+        end
+        postEffects = {}
+        lowGraphics = false
+    end
+    if fovModified then
+        local camera = Workspace.CurrentCamera
+        if camera then camera.FieldOfView = oldFov end
+        fovModified = false
+    end
+end
+
 
 local function setFov(value)
     local cam = Workspace.CurrentCamera
     if cam then
         cam.FieldOfView = value
+        fovModified = true
         state.Text = "  Campo de visao local: " .. tostring(value)
     end
 end
@@ -265,7 +311,11 @@ action("Alternar efeitos visuais (local)", function()
 end)
 
 heading("SOBRE")
-infoLabel("Este painel mostra informacoes reais e ajusta apenas visuais locais. Nao inclui Auto Farm, Auto Boss, Auto Quest ou alteracoes no servidor.", 72)
+infoLabel("Painel cliente informativo. Sem Auto Farm, Auto Boss, Auto Quest ou alteracoes no servidor de outros jogos.", 72)
+action("Restaurar aparencia original", function()
+    restoreVisuals()
+    state.Text = "  Aparencia local restaurada."
+end)
 
 local frameCount = 0
 local frameTime = 0
@@ -274,6 +324,15 @@ updates = RunService.RenderStepped:Connect(function(dt)
     frameCount = frameCount + 1
     frameTime = frameTime + dt
     if frameTime < 0.5 then return end
+    local camera = Workspace.CurrentCamera
+    if camera then
+        local view = camera.ViewportSize
+        local desiredWidth = math.min(365, math.max(250, view.X - 24))
+        local desiredHeight = math.min(425, math.max(245, view.Y - 24))
+        if panel.Size.X.Offset ~= desiredWidth or panel.Size.Y.Offset ~= desiredHeight then
+            panel.Size = UDim2.fromOffset(desiredWidth, desiredHeight)
+        end
+    end
     local fps = frameCount / math.max(frameTime, 0.001)
     frameCount, frameTime = 0, 0
 
@@ -295,5 +354,8 @@ end)
 gui.Destroying:Connect(function()
     alive = false
     if updates then updates:Disconnect() end
+    if inputConnection then inputConnection:Disconnect() end
+    if dragInputEnded then dragInputEnded:Disconnect() end
+    restoreVisuals()
 end)
-print("[SeaForge] Painel cliente v0.4 iniciado.")
+print("[SeaForge] Painel cliente v0.5 iniciado.")
