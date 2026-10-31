@@ -58,7 +58,7 @@ O instalador substitui `SeaForgeServer` e `SeaForgeClient` de versões anteriore
 Você pode construir recursos originais e testar modelos de distribuição em projetos sob seu controle. Antes de vender, conclua testes em vários dispositivos, revise segurança, direitos autorais, documentação e licenciamento. Consulte [`LICENCA.md`](LICENCA.md) antes de publicar.
 
 
-## Cliente local v0.4
+## Cliente local v0.5
 
 - [Código único do painel cliente](client/SeaForgeHub.client.lua)
 - [Guia de compatibilidade e carregamento remoto](docs/CLIENTE_LOCAL.md)
