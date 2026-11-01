@@ -510,8 +510,11 @@ end
 
 local function createMark(target,color)
     if marks[target] and marks[target].Parent then return end
-    local adorned = target:IsA('Tool') and fruitPart(target) or target
-    if target:IsA('Tool') and not adorned then return end
+    local adorned = target
+    if target:IsA('Tool') then
+        adorned = fruitPart(target)
+        if not adorned then return end
+    end
     local h=make('Highlight',{Name='SeaForgeESP',FillTransparency=0.78,
         OutlineTransparency=0.12,OutlineColor=color,FillColor=color,
         Adornee=adorned,DepthMode=Enum.HighlightDepthMode.Occluded},adorned)
