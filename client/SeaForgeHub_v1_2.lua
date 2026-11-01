@@ -517,12 +517,12 @@ local function attack(enemy)
     local eh=enemy:FindFirstChildOfClass('Humanoid')
     if not er or not eh or eh.Health<=0 then return end
     local dist=approach(er.Position,root,hum)
-    recordHealth(enemy,eh)
     -- Em voo, aguarda chegar a distancia de combate. A altura e configuravel.
     if dist>15 then
         if os.clock()-lastMessage>7 then log('Aproximando de '..enemy.Name) lastMessage=os.clock() end
         return
     end
+    recordHealth(enemy,eh)
     local tool=equipWeapon(char,hum)
     if tool and tool.Parent == char and os.clock()-lastAttack>settings.attackDelay then
         local aim=Vector3.new(er.Position.X,root.Position.Y,er.Position.Z)
