@@ -20,7 +20,7 @@ O padrão de carregamento remoto do formato que você solicitou é:
 loadstring(game:HttpGet("https://raw.githubusercontent.com/GiuseppeKamole/preguicinha-online/main/client/SeaForgeHub.client.lua"))()
 ```
 
-**Esse comando NÃO funciona com o repositório atual privado:** um cliente externo não consegue acessar o Raw sem autenticação. Não adicione tokens do GitHub ao script. Caso decida disponibilizar o arquivo publicamente, use um repositório **separado**, com revisão de conteúdo e sem fotos de pessoas ou dados privados. A publicação não garante compatibilidade com executores.
+**Atualização de 31/10/2026:** o repositório está **público** e a URL Raw foi verificada com retorno de conteúdo Lua. Isso apenas confirma acessibilidade via HTTP: **não** confirma compatibilidade com executores, funcionamento nos servidores oficiais ou existência de Auto Farm e outras automações. Não inclua tokens do GitHub no carregador. Revise os direitos da imagem de pessoas publicada neste mesmo repositório.
 
 ## Limitações de compatibilidade
 
