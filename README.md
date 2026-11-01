@@ -63,4 +63,12 @@ Você pode construir recursos originais e testar modelos de distribuição em pr
 - [Código único do painel cliente](client/SeaForgeHub.client.lua)
 - [Guia de compatibilidade e carregamento remoto](docs/CLIENTE_LOCAL.md)
 
-Este painel cliente exibe dados disponíveis do jogador e oferece controles de visualização local. **Não implementa as automações do HoHo Hub nem atua no servidor do Blox Fruits.** O repositório permanece privado; a URL Raw não é publicamente acessível.
+Este painel cliente exibe dados disponíveis do jogador e oferece controles de visualização local. **Não implementa as automações do HoHo Hub nem atua no servidor do Blox Fruits.** Na auditoria de 31/10/2026, o repositório estava público e a URL Raw retornava o arquivo cliente. Isso não significa que o painel execute automações do Blox Fruits.
+
+
+## Auditoria de código de terceiros
+
+- [Inventário dos 14 arquivos públicos do HoHo Hub](docs/AUDITORIA_HOHO_H_2026-10-31.md)
+- [Matriz de funcionalidades HoHo x SeaForge](docs/MATRIZ_HOHO_SEAFORGE.md)
+
+A auditoria é estática, não executa scripts de terceiros e não comprova a operação das automações nos servidores oficiais.
